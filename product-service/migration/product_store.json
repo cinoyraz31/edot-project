@@ -1,0 +1,38 @@
+[
+  {
+    "name": "HP Xiomi 123",
+    "code": "xiomi-123",
+    "description":  "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book",
+    "status": true
+  },
+  {
+    "name": "HP Samsung 123",
+    "code": "samsung-123",
+    "description":  "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book",
+    "status": true
+  },
+  {
+    "name": "HP Iphone 123",
+    "code": "iphone-123",
+    "description":  "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book",
+    "status": true
+  },
+  {
+    "name": "HP Oppo 123",
+    "code": "oppo-123",
+    "description":  "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book",
+    "status": true
+  },
+  {
+    "name": "HP LG 123",
+    "code": "lg-123",
+    "description":  "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book",
+    "status": true
+  },
+  {
+    "name": "HP Infinix 123",
+    "code": "infinix-123",
+    "description":  "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book",
+    "status": true
+  }
+]
