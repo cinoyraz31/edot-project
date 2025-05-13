@@ -32,8 +32,54 @@ func NewUserController(
 	}
 }
 
+func (u UserControllerImpl) Profile(ctx *fiber.Ctx) error {
+	claims := ctx.Locals("claims").(*helper.JWT)
+	user, err := u.UserRepository.FindBy(u.DB, map[string]interface{}{
+		"id": claims.Id,
+	})
+	if err != nil {
+		return exceptions.ErrorHandlerCustom(ctx, fiber.StatusNotFound, "user not found")
+	}
+	return ctx.Status(200).JSON(response.DataResponse("Get Profile Success", user, nil))
+}
+
+func (u UserControllerImpl) ProfileUpdate(ctx *fiber.Ctx) error {
+	var data request.ProfileUpdateRequest
+	claims := ctx.Locals("claims").(*helper.JWT)
+
+	if err := ctx.BodyParser(&data); err != nil {
+		return exceptions.ErrorHandlerUnprocessableEntity(ctx, err)
+	}
+
+	validate := validator.New()
+	err := validate.Struct(data)
+
+	if err != nil {
+		return exceptions.ErrorHandlerUnprocessableEntity(ctx, err)
+	}
+
+	dob, err := helper.ParseDate(data.DateOfBirth)
+	if err != nil {
+		return exceptions.ErrorHandlerBadRequest(ctx, "Tanggal lahir wajib format Y/m/d")
+	}
+
+	user, err := u.UserRepository.FindBy(u.DB, map[string]interface{}{
+		"id": claims.Id,
+	})
+	if err != nil {
+		return exceptions.ErrorHandlerCustom(ctx, fiber.StatusNotFound, "user not found")
+	}
+
+	user.Name = data.Name
+	user.DateOfBirth = dob
+	if err = u.UserRepository.Update(u.DB, user); err != nil {
+		return exceptions.ErrorHandlerBadRequest(ctx, "Fail to update user")
+	}
+	return ctx.Status(fiber.StatusNoContent).JSON("")
+}
+
 func (u UserControllerImpl) CheckToken(ctx *fiber.Ctx) error {
-	claims := ctx.Locals("claims").(helper.JWT)
+	claims := ctx.Locals("claims").(*helper.JWT)
 	return ctx.Status(fiber.StatusOK).JSON(response.DataResponse("OK Check Token", claims, nil))
 }
 

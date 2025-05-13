@@ -37,6 +37,7 @@ func NewOtpController(
 func (o OtpControllerImpl) Send(ctx *fiber.Ctx) error {
 	var data request.OTPSendRequest
 	var otp model.OTP
+	fmt.Println(data)
 
 	if err := ctx.BodyParser(&data); err != nil {
 		return exceptions.ErrorHandlerUnprocessableEntity(ctx, err)
@@ -72,6 +73,8 @@ func (o OtpControllerImpl) Send(ctx *fiber.Ctx) error {
 	if err := o.OtpRepository.Create(o.DB, otp); err != nil {
 		return exceptions.ErrorHandlerBadRequest(ctx, " Gagal tambah otp")
 	}
+
+	// send to OTP provider
 
 	return ctx.Status(fiber.StatusNoContent).SendString("")
 }

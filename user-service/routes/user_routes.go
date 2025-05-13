@@ -15,4 +15,6 @@ func UserRoutes(app *fiber.App, db *gorm.DB) {
 
 	app.Post("/login-or-signup", userController.LoginOrSignUp)
 	app.Get("/check-token", middleware.JWTAuthenticate, userController.CheckToken)
+	app.Get("/profile", middleware.JWTAuthenticate, userController.Profile)
+	app.Post("/profile", middleware.JWTAuthenticate, userController.ProfileUpdate)
 }

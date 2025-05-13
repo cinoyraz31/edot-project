@@ -4,6 +4,7 @@ import (
 	"math"
 	"math/rand"
 	"regexp"
+	"time"
 )
 
 func ValidatePhoneNumber(phoneNumber string) (string, bool) {
@@ -28,4 +29,13 @@ func GenerateRandomNumber(digits int) int {
 	max := int(math.Pow(10, float64(digits))) - 1
 
 	return rand.Intn(max-min+1) + min
+}
+
+func ParseDate(sdate string) (time.Time, error) {
+	parsedDate, err := time.Parse("2006-01-02", sdate)
+
+	if err != nil {
+		return parsedDate, err
+	}
+	return parsedDate, nil
 }
