@@ -1,0 +1,22 @@
+[
+  {
+    "name": "Toko A",
+    "code": "tokoa",
+    "status": true
+  },
+  {
+    "name": "Toko B",
+    "code": "tokob",
+    "status": true
+  },
+  {
+    "name": "Toko C",
+    "code": "tokoc",
+    "status": true
+  },
+  {
+    "name": "Toko D",
+    "code": "tokod",
+    "status": true
+  }
+]

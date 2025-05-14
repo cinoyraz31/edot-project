@@ -1,0 +1,62 @@
+[
+  {
+    "shopCode": "tokoa",
+    "productCode": "samsung-123",
+    "price": 2000000
+  },
+  {
+    "shopCode": "tokoa",
+    "productCode": "iphone-123",
+    "price": 11000000
+  },
+  {
+    "shopCode": "tokoa",
+    "productCode": "xiomi-123",
+    "price": 3000000
+  },
+  {
+    "shopCode": "tokoa",
+    "productCode": "infinix-123",
+    "price": 1500000
+  },
+  {
+    "shopCode": "tokoa",
+    "productCode": "lg-123",
+    "price": 4000000
+  },
+  {
+    "shopCode": "tokoa",
+    "productCode": "oppo-123",
+    "price": 2500000
+  },
+  {
+    "shopCode": "tokob",
+    "productCode": "samsung-123",
+    "price": 2000000
+  },
+  {
+    "shopCode": "tokob",
+    "productCode": "iphone-123",
+    "price": 11000000
+  },
+  {
+    "shopCode": "tokob",
+    "productCode": "xiomi-123",
+    "price": 3000000
+  },
+  {
+    "shopCode": "tokob",
+    "productCode": "infinix-123",
+    "price": 1500000
+  },
+  {
+    "shopCode": "tokob",
+    "productCode": "lg-123",
+    "price": 4000000
+  },
+  {
+    "shopCode": "tokob",
+    "productCode": "oppo-123",
+    "price": 2500000
+  }
+]
