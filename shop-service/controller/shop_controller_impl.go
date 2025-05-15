@@ -44,6 +44,7 @@ func (s ShopControllerImpl) StockOnShops(ctx *fiber.Ctx) error {
 			"shopName":  shopProduct.ShopName,
 			"productId": shopProduct.ProductId,
 			"quantity":  stockQtyResponse.Quantity,
+			"price":     shopProduct.Price,
 		}
 	}
 	return ctx.Status(fiber.StatusOK).JSON(result)
