@@ -16,6 +16,9 @@ func NewWarehouseStockRepository() *WarehouseStockRepositoryImpl {
 	return &WarehouseStockRepositoryImpl{}
 }
 
+func (w WarehouseStockRepositoryImpl) ReleaseQty(db *gorm.DB, warehouseId uuid.UUID, productId uuid.UUID, qty int) error {
+}
+
 func (w WarehouseStockRepositoryImpl) QuantityTotal(db *gorm.DB, params map[string]interface{}) (int64, error) {
 	var totalQuantity int64
 

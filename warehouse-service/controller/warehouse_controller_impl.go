@@ -27,6 +27,22 @@ func NewWarehouseController(
 	}
 }
 
+func (w WarehouseControllerImpl) Show(ctx *fiber.Ctx) error {
+	shopId, _ := uuid.Parse(ctx.Params("shopId"))
+	productId, _ := uuid.Parse(ctx.Params("productId"))
+
+	result, err := w.WarehouseRepository.ShowWithStock(w.DB, shopId, productId)
+	if err != nil {
+		return exceptions.ErrorHandlerBadRequest(ctx, err.Error())
+	}
+
+	if (result.Qty - result.LockedQty) <= 0 {
+		return exceptions.ErrorHandlerBadRequest(ctx, "Quantity is empty")
+	}
+
+	return ctx.Status(fiber.StatusOK).JSON(result)
+}
+
 func (w WarehouseControllerImpl) Add(ctx *fiber.Ctx) error {
 	var data warehouse.CreateWarehouseRequest
 	if err := ctx.BodyParser(&data); err != nil {
