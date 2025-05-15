@@ -2,9 +2,11 @@ package repository
 
 import (
 	"errors"
+	"fmt"
 	"github.com/google/uuid"
 	"gorm.io/gorm"
 	"gorm.io/gorm/clause"
+	"reflect"
 	"warehouse-service/model"
 )
 
@@ -12,6 +14,49 @@ type WarehouseStockRepositoryImpl struct{}
 
 func NewWarehouseStockRepository() *WarehouseStockRepositoryImpl {
 	return &WarehouseStockRepositoryImpl{}
+}
+
+func (w WarehouseStockRepositoryImpl) QuantityTotal(db *gorm.DB, params map[string]interface{}) (int64, error) {
+	var totalQuantity int64
+
+	query := db.Debug().
+		Model(&model.Stock{}).
+		Joins("LEFT JOIN warehouses on warehouses.id = stocks.warehouse_id")
+
+	for key, value := range params {
+		switch reflect.TypeOf(value).Kind() {
+		case reflect.Map:
+			for k, v := range value.(map[string]interface{}) {
+				query = query.Where(fmt.Sprintf("%s %s ?", key, k), v)
+			}
+		default:
+			query = query.Where(key+" = ?", value)
+		}
+	}
+
+	result := query.Select("SUM(stocks.qty-stocks.locked_qty)").Scan(&totalQuantity)
+	return totalQuantity, result.Error
+}
+
+func (w WarehouseStockRepositoryImpl) Count(db *gorm.DB, params map[string]interface{}) (int64, error) {
+	var count int64
+	query := db.Debug().
+		Model(&model.Stock{}).
+		Joins("LEFT JOIN warehouses on warehouses.id = stocks.warehouse_id")
+
+	for key, value := range params {
+		switch reflect.TypeOf(value).Kind() {
+		case reflect.Map:
+			for k, v := range value.(map[string]interface{}) {
+				query = query.Where(fmt.Sprintf("%s %s ?", key, k), v)
+			}
+		default:
+			query = query.Where(key+" = ?", value)
+		}
+	}
+
+	result := query.Count(&count)
+	return count, result.Error
 }
 
 func (w WarehouseStockRepositoryImpl) Delete(db *gorm.DB, warehouseId uuid.UUID) error {

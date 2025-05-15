@@ -11,6 +11,12 @@ func NewUserRepository() *UserRepositoryImpl {
 	return &UserRepositoryImpl{}
 }
 
+func (u UserRepositoryImpl) FindByPhoneNumber(db *gorm.DB, phoneNumber string) (model.User, error) {
+	var user model.User
+	result := db.Where("phone_number = ?", phoneNumber).First(&user)
+	return user, result.Error
+}
+
 func (u UserRepositoryImpl) Create(db *gorm.DB, user model.User) error {
 	tx := db.Begin()
 	err := tx.Create(&user).Error

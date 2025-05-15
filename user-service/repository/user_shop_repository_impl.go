@@ -11,6 +11,12 @@ func NewUserShopRepository() *UserShopRepositoryImpl {
 	return &UserShopRepositoryImpl{}
 }
 
+func (u UserShopRepositoryImpl) FindByPhoneNumber(db *gorm.DB, phoneNumber string) (model.UserShop, error) {
+	var userShop model.UserShop
+	result := db.Where("phone_number = ?", phoneNumber).First(&userShop)
+	return userShop, result.Error
+}
+
 func (u UserShopRepositoryImpl) Create(db *gorm.DB, userShop model.UserShop) error {
 	tx := db.Begin()
 	err := tx.Create(&userShop).Error

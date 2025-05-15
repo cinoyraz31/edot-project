@@ -13,6 +13,25 @@ func NewProductRepository() *ProductRepositoryImpl {
 	return &ProductRepositoryImpl{}
 }
 
+func (p ProductRepositoryImpl) Count(db *gorm.DB, params map[string]interface{}) (int64, error) {
+	var count int64
+	query := db.Model(&model.Product{})
+
+	for key, value := range params {
+		switch reflect.TypeOf(value).Kind() {
+		case reflect.Map:
+			for k, v := range value.(map[string]interface{}) {
+				query = query.Where(fmt.Sprintf("%s %s ?", key, k), v)
+			}
+		default:
+			query = query.Where(key+" = ?", value)
+		}
+	}
+
+	result := query.Count(&count)
+	return count, result.Error
+}
+
 func (p ProductRepositoryImpl) Create(db *gorm.DB, product model.Product) error {
 	tx := db.Begin()
 	err := tx.Create(&product).Error
@@ -55,16 +74,9 @@ func (p ProductRepositoryImpl) FindAll(db *gorm.DB, params map[string]interface{
 	for key, value := range options {
 		switch key {
 		case "limit":
-			intValue, ok := value.(int)
-
-			if ok {
-				query.Limit(intValue)
-			}
+			query.Limit(value.(int))
 		case "offset":
-			intValue, ok := value.(int)
-			if ok {
-				query.Offset(intValue)
-			}
+			query.Offset(value.(int))
 		}
 	}
 

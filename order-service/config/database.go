@@ -5,9 +5,9 @@ import (
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"log"
+	"order-service/model"
 	"os"
 	"time"
-	"warehouse-service/model"
 )
 
 func OpenConnection() *gorm.DB {
@@ -40,9 +40,9 @@ func OpenConnection() *gorm.DB {
 	sqlDB.SetConnMaxIdleTime(5 * time.Minute)
 
 	err = db.AutoMigrate(
-		&model.Warehouse{},
-		&model.Stock{},
-		&model.Transfer{},
+		&model.Order{},
+		&model.ShopOrder{},
+		&model.OrderItem{},
 	)
 
 	if err != nil {

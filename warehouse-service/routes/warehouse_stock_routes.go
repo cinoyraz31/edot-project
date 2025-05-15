@@ -19,4 +19,5 @@ func WarehouseStockRoutes(app *fiber.App, db *gorm.DB) {
 
 	//	user
 	app.Post("/user/warehouse-stock/order", middleware.CheckToken, warehouseStockController.StockOrder)
+	app.Get("/user/shop/:shopId/product/:productId/warehouse-stock", middleware.CheckToken, warehouseStockController.ProductQty)
 }

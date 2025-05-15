@@ -37,7 +37,6 @@ func NewOtpController(
 func (o OtpControllerImpl) Send(ctx *fiber.Ctx) error {
 	var data request.OTPSendRequest
 	var otp model.OTP
-	fmt.Println(data)
 
 	if err := ctx.BodyParser(&data); err != nil {
 		return exceptions.ErrorHandlerUnprocessableEntity(ctx, err)

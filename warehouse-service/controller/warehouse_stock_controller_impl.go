@@ -31,6 +31,22 @@ func NewWarehouseStockController(
 	}
 }
 
+func (w WarehouseStockControllerImpl) ProductQty(ctx *fiber.Ctx) error {
+	shopId := ctx.Params("shopId")
+	productId := ctx.Params("productId")
+
+	quantityTotal, err := w.WarehouseStockRepository.QuantityTotal(w.DB, map[string]interface{}{
+		"warehouses.shop_id": shopId,
+		"stocks.product_id":  productId,
+	})
+	if err != nil {
+		return exceptions.ErrorHandlerBadRequest(ctx, "there issue count stock")
+	}
+	return ctx.Status(fiber.StatusOK).JSON(map[string]interface{}{
+		"qty": quantityTotal,
+	})
+}
+
 func checkExistWarehouseAndProduct(w WarehouseStockControllerImpl, data stock.CreateStockRequest) error {
 	_, err := w.WarehouseRepository.FindBy(w.DB, map[string]interface{}{
 		"id": data.WarehouseId,

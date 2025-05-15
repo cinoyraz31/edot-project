@@ -127,7 +127,11 @@ func (u UserControllerImpl) LoginOrSignUp(ctx *fiber.Ctx) error {
 	}
 
 	if err = u.UserRepository.Create(u.DB, user); err != nil {
-		return exceptions.ErrorHandlerBadRequest(ctx, "user tidak ditemukan")
+		user, err = u.UserRepository.FindByPhoneNumber(u.DB, phoneNumber)
+
+		if err != nil {
+			return exceptions.ErrorHandlerBadRequest(ctx, "user tidak ditemukan")
+		}
 	}
 
 	user.LastLoginAt = time.Now()

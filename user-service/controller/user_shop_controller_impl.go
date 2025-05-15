@@ -76,7 +76,11 @@ func (u UserShopControllerImpl) LoginOrSignUp(ctx *fiber.Ctx) error {
 	}
 
 	if err = u.UserShopRepository.Create(u.DB, userShop); err != nil {
-		return exceptions.ErrorHandlerBadRequest(ctx, "user tidak ditemukan")
+		userShop, err = u.UserShopRepository.FindByPhoneNumber(u.DB, phoneNumber)
+
+		if err != nil {
+			return exceptions.ErrorHandlerBadRequest(ctx, "user tidak ditemukan")
+		}
 	}
 
 	token, err := helper.GenerateTokenForShop(userShop)

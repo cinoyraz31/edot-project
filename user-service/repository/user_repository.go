@@ -9,4 +9,5 @@ type UserRepository interface {
 	Create(db *gorm.DB, user model.User) error
 	Update(db *gorm.DB, user model.User) error
 	FindBy(db *gorm.DB, params map[string]interface{}) (model.User, error)
+	FindByPhoneNumber(db *gorm.DB, phoneNumber string) (model.User, error)
 }
