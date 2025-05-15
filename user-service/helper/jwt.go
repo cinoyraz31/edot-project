@@ -10,7 +10,7 @@ import (
 
 type JWT struct {
 	Id          uuid.UUID `json:"id"`
-	PhoneNumber string    `json:"phone_number"`
+	PhoneNumber string    `json:"phoneNumber"`
 	Name        string    `json:"name"`
 	jwt.StandardClaims
 }
@@ -25,4 +25,21 @@ func GenerateToken(user model.User) (string, error) {
 		},
 	})
 	return token.SignedString([]byte(os.Getenv("JWT_SECRET")))
+}
+
+type JWTForShop struct {
+	Id          uuid.UUID `json:"id"`
+	PhoneNumber string    `json:"phoneNumber"`
+	jwt.StandardClaims
+}
+
+func GenerateTokenForShop(userShop model.UserShop) (string, error) {
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, JWTForShop{
+		Id:          userShop.Id,
+		PhoneNumber: userShop.PhoneNumber,
+		StandardClaims: jwt.StandardClaims{
+			ExpiresAt: time.Now().Add(time.Hour * 24).Unix(),
+		},
+	})
+	return token.SignedString([]byte(os.Getenv("JWT_SECRET_FOR_SHOP")))
 }

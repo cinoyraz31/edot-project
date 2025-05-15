@@ -6,9 +6,9 @@ import (
 	"github.com/joho/godotenv"
 	"log"
 	"os"
-	"user-service/config"
-	"user-service/exceptions"
-	"user-service/routes"
+	"shop-service/config"
+	"shop-service/exceptions"
+	"shop-service/routes"
 )
 
 func Init() {
@@ -29,9 +29,7 @@ func main() {
 		return c.SendString("Welcome to user service!")
 	})
 
-	routes.OtpRoutes(app, db)
-	routes.UserRoutes(app, db)
-	routes.UserShopRoutes(app, db)
+	routes.ShopRoutes(app, db)
 
 	app.Use(func(ctx *fiber.Ctx) error {
 		return exceptions.ErrorHandlerCustom(ctx, fiber.StatusNotFound, "API Not Found")

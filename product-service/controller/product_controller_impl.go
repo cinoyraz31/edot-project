@@ -24,6 +24,22 @@ func NewProductController(
 	}
 }
 
+func (p ProductControllerImpl) Show(ctx *fiber.Ctx) error {
+	id := ctx.Params("id")
+	product, err := p.ProductRepository.FindBy(p.DB, map[string]interface{}{
+		"id": id,
+	})
+	if err != nil {
+		product, err = p.ProductRepository.FindBy(p.DB, map[string]interface{}{
+			"code": id,
+		})
+		if err != nil {
+			return exceptions.ErrorHandlerBadRequest(ctx, err.Error())
+		}
+	}
+	return ctx.Status(fiber.StatusOK).JSON(response.DataResponse("product show", product, nil))
+}
+
 func (p ProductControllerImpl) Index(ctx *fiber.Ctx) error {
 	data := request.Filter{
 		Page: ctx.Query("page", "1"),

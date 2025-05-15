@@ -7,7 +7,7 @@ import (
 	"log"
 	"os"
 	"time"
-	"user-service/model"
+	"warehouse-service/model"
 )
 
 func OpenConnection() *gorm.DB {
@@ -40,9 +40,10 @@ func OpenConnection() *gorm.DB {
 	sqlDB.SetConnMaxIdleTime(5 * time.Minute)
 
 	err = db.AutoMigrate(
-		&model.User{},
-		&model.OTP{},
-		&model.UserShop{},
+		&model.Warehouse{},
+		&model.Stock{},
+		&model.Shipment{},
+		&model.Transfer{},
 	)
 
 	if err != nil {

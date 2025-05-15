@@ -6,9 +6,9 @@ import (
 	"github.com/joho/godotenv"
 	"log"
 	"os"
-	"user-service/config"
-	"user-service/exceptions"
-	"user-service/routes"
+	"warehouse-service/config"
+	"warehouse-service/exceptions"
+	"warehouse-service/routes"
 )
 
 func Init() {
@@ -26,12 +26,12 @@ func main() {
 	app.Use(exceptions.ErrorHandlerInternalServerError)
 
 	app.Get("/", func(c *fiber.Ctx) error {
-		return c.SendString("Welcome to user service!")
+		return c.SendString("Welcome to warehouse service!")
 	})
 
-	routes.OtpRoutes(app, db)
-	routes.UserRoutes(app, db)
-	routes.UserShopRoutes(app, db)
+	routes.WarehouseRoutes(app, db)
+	routes.WarehouseStockRoutes(app, db)
+	routes.WarehouseTransferRoutes(app, db)
 
 	app.Use(func(ctx *fiber.Ctx) error {
 		return exceptions.ErrorHandlerCustom(ctx, fiber.StatusNotFound, "API Not Found")

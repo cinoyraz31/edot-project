@@ -13,4 +13,7 @@ func ProductRoutes(app *fiber.App, db *gorm.DB) {
 	productController := controller.NewProductController(db, productRepository)
 
 	app.Get("products", middleware.CheckToken, productController.Index)
+
+	//	internal
+	app.Get("static/products/:id", middleware.StaticToken, productController.Show)
 }
