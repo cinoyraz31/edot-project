@@ -31,6 +31,24 @@ func NewWarehouseStockController(
 	}
 }
 
+func (w WarehouseStockControllerImpl) StockRelease(ctx *fiber.Ctx) error {
+	var data stock.OrderStockRequest
+	if err := ctx.BodyParser(&data); err != nil {
+		return exceptions.ErrorHandlerUnprocessableEntity(ctx, err)
+	}
+
+	validate := validator.New()
+	err := validate.Struct(data)
+
+	if err != nil {
+		return exceptions.ErrorHandlerUnprocessableEntity(ctx, err)
+	}
+	if err := w.WarehouseStockRepository.ReleaseQty(w.DB, data.WarehouseId, data.ProductId, data.Qty); err != nil {
+		return exceptions.ErrorHandlerBadRequest(ctx, "Is problem release stock")
+	}
+	return ctx.Status(fiber.StatusNoContent).JSON("")
+}
+
 func (w WarehouseStockControllerImpl) ProductQty(ctx *fiber.Ctx) error {
 	shopId := ctx.Params("shopId")
 	productId := ctx.Params("productId")
@@ -162,21 +180,7 @@ func (w WarehouseStockControllerImpl) StockOrder(ctx *fiber.Ctx) error {
 	if err != nil {
 		return exceptions.ErrorHandlerUnprocessableEntity(ctx, err)
 	}
-	stock, err := w.WarehouseStockRepository.FindBy(w.DB, map[string]interface{}{
-		"warehouse_id": data.WarehouseId,
-		"product_id":   data.ProductId,
-	})
-	if err != nil {
-		return exceptions.ErrorHandlerBadRequest(ctx, "Stock not found")
-	}
-
-	if (stock.Qty - stock.LockedQty) <= 0 {
-		return exceptions.ErrorHandlerBadRequest(ctx, "Stock is empty")
-	}
-
-	if data.Qty > (stock.Qty - stock.LockedQty) {
-		return exceptions.ErrorHandlerBadRequest(ctx, "Stock not enough")
-	}
+	
 	if err := w.WarehouseStockRepository.LockQty(w.DB, data.WarehouseId, data.ProductId, data.Qty); err != nil {
 		return exceptions.ErrorHandlerBadRequest(ctx, "Is problem lock stock")
 	}

@@ -116,7 +116,7 @@ func (o OrderControllerImpl) Add(ctx *fiber.Ctx) error {
 			return exceptions.ErrorHandlerBadRequest(ctx, "Faield to create order")
 		}
 
-		go OrderCancelled(o, order)
+		go OrderCancelled(ctx.Get("Authorization"), o, order)
 
 		return ctx.Status(fiber.StatusCreated).JSON("")
 	} else {
@@ -124,7 +124,7 @@ func (o OrderControllerImpl) Add(ctx *fiber.Ctx) error {
 	}
 }
 
-func OrderCancelled(o OrderControllerImpl, order model.Order) {
+func OrderCancelled(authorization string, o OrderControllerImpl, order model.Order) {
 	time.Sleep(1 * time.Minute) // dummy 1 menit waktu tunggu payment
 	result, err := o.OrderRepository.FindBy(o.DB, map[string]interface{}{
 		"order_number": order.OrderNumber,
@@ -134,6 +134,11 @@ func OrderCancelled(o OrderControllerImpl, order model.Order) {
 		result.Status = model.STATUS_CANCELLED
 		if err := o.OrderRepository.Update(o.DB, result); err != nil {
 			log.Fatal(err.Error())
+		}
+		for _, shopOrders := range order.ShopOrders {
+			for _, orderItem := range shopOrders.OrderItems {
+				warehouse_service.StockReleaseQuantity(authorization, orderItem.WarehouseId, orderItem.ProductId, orderItem.Qty)
+			}
 		}
 	}
 
