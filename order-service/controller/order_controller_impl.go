@@ -213,6 +213,40 @@ func (o OrderControllerImpl) List(ctx *fiber.Ctx) error {
 }
 
 func (o OrderControllerImpl) Pay(ctx *fiber.Ctx) error {
-	//TODO implement me
-	panic("implement me")
+	var data request.PaymentRequest
+
+	if err := ctx.BodyParser(&data); err != nil {
+		return exceptions.ErrorHandlerUnprocessableEntity(ctx, err)
+	}
+
+	validate := validator.New()
+	err := validate.Struct(data)
+
+	if err != nil {
+		return exceptions.ErrorHandlerUnprocessableEntity(ctx, err)
+	}
+
+	order, err := o.OrderRepository.FindBy(o.DB, map[string]interface{}{
+		"order_number": data.OrderNumber,
+		"status":       model.STATUS_WAITING_PAYMENT,
+	})
+	if err != nil {
+		return exceptions.ErrorHandlerBadRequest(ctx, "order not found")
+	}
+	order.Status = model.STATUS_PAID
+	if err := o.OrderRepository.Update(o.DB, order); err != nil {
+		return exceptions.ErrorHandlerBadRequest(ctx, "order not found")
+	}
+
+	go PayQuantityForWarehouse(ctx.Get("Authorization"), order)
+
+	return ctx.Status(fiber.StatusNoContent).JSON("")
+}
+
+func PayQuantityForWarehouse(authorization string, order model.Order) {
+	for _, value := range order.ShopOrders {
+		for _, orderItem := range value.OrderItems {
+			warehouse_service.StockPayQuantity(authorization, orderItem.WarehouseId, orderItem.ProductId, orderItem.Qty)
+		}
+	}
 }

@@ -14,6 +14,7 @@ type WarehouseStockRepository interface {
 	CheckStock(db *gorm.DB, warehouseId uuid.UUID, productId uuid.UUID) (int64, error)
 	LockQty(db *gorm.DB, warehouseId uuid.UUID, productId uuid.UUID, qty int) error    // for update query
 	ReleaseQty(db *gorm.DB, warehouseId uuid.UUID, productId uuid.UUID, qty int) error // for update query
+	PayQty(db *gorm.DB, warehouseId uuid.UUID, productId uuid.UUID, qty int) error     // for update query
 	Count(db *gorm.DB, params map[string]interface{}) (int64, error)
 	QuantityTotal(db *gorm.DB, params map[string]interface{}) (int64, error)
 }

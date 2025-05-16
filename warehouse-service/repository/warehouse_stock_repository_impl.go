@@ -16,6 +16,37 @@ func NewWarehouseStockRepository() *WarehouseStockRepositoryImpl {
 	return &WarehouseStockRepositoryImpl{}
 }
 
+func (w WarehouseStockRepositoryImpl) PayQty(db *gorm.DB, warehouseId uuid.UUID, productId uuid.UUID, qty int) error {
+	tx := db.Begin()
+	var stock model.Stock
+
+	if err := db.
+		Clauses(clause.Locking{Strength: "UPDATE"}).
+		Where("warehouse_id = ? AND product_id = ?", warehouseId, productId).
+		First(&stock).Error; err != nil {
+		return err
+	}
+
+	if stock.LockedQty <= 0 {
+		return errors.New("locked qty must be greater than 0")
+	}
+
+	if qty > stock.LockedQty {
+		return errors.New("qty must be less than or equal to locked qty")
+	}
+
+	stock.LockedQty -= qty
+	stock.Qty -= qty
+	err := db.Save(&stock).Error
+
+	if err != nil {
+		tx.Rollback()
+		return err
+	}
+	tx.Commit()
+	return nil
+}
+
 func (w WarehouseStockRepositoryImpl) ReleaseQty(db *gorm.DB, warehouseId uuid.UUID, productId uuid.UUID, qty int) error {
 	tx := db.Begin()
 	var stock model.Stock

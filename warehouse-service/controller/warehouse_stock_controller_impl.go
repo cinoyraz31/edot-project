@@ -31,6 +31,24 @@ func NewWarehouseStockController(
 	}
 }
 
+func (w WarehouseStockControllerImpl) StockPay(ctx *fiber.Ctx) error {
+	var data stock.OrderStockRequest
+	if err := ctx.BodyParser(&data); err != nil {
+		return exceptions.ErrorHandlerUnprocessableEntity(ctx, err)
+	}
+
+	validate := validator.New()
+	err := validate.Struct(data)
+
+	if err != nil {
+		return exceptions.ErrorHandlerUnprocessableEntity(ctx, err)
+	}
+	if err := w.WarehouseStockRepository.PayQty(w.DB, data.WarehouseId, data.ProductId, data.Qty); err != nil {
+		return exceptions.ErrorHandlerBadRequest(ctx, "Is problem pay stock")
+	}
+	return ctx.Status(fiber.StatusNoContent).JSON("")
+}
+
 func (w WarehouseStockControllerImpl) StockRelease(ctx *fiber.Ctx) error {
 	var data stock.OrderStockRequest
 	if err := ctx.BodyParser(&data); err != nil {
@@ -180,7 +198,7 @@ func (w WarehouseStockControllerImpl) StockOrder(ctx *fiber.Ctx) error {
 	if err != nil {
 		return exceptions.ErrorHandlerUnprocessableEntity(ctx, err)
 	}
-	
+
 	if err := w.WarehouseStockRepository.LockQty(w.DB, data.WarehouseId, data.ProductId, data.Qty); err != nil {
 		return exceptions.ErrorHandlerBadRequest(ctx, "Is problem lock stock")
 	}

@@ -17,4 +17,5 @@ func OrderRoutes(app *fiber.App, db *gorm.DB) {
 	app.Post("/orders", middleware.CheckToken, orderController.Add)
 	app.Get("/orders", middleware.CheckToken, orderController.List)
 	app.Get("/orders/:orderNumber", middleware.CheckToken, orderController.Show)
+	app.Post("/webhook/order-pay", middleware.WebhookPayment, orderController.Pay)
 }

@@ -8,5 +8,6 @@ type WarehouseStockController interface {
 	Delete(ctx *fiber.Ctx) error
 	StockOrder(ctx *fiber.Ctx) error
 	StockRelease(ctx *fiber.Ctx) error
+	StockPay(ctx *fiber.Ctx) error
 	ProductQty(ctx *fiber.Ctx) error
 }
