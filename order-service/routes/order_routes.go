@@ -15,4 +15,6 @@ func OrderRoutes(app *fiber.App, db *gorm.DB) {
 	orderController := controller.NewOrderController(orderItemRepo, db, orderRepo, shopOrderRepo)
 
 	app.Post("/orders", middleware.CheckToken, orderController.Add)
+	app.Get("/orders", middleware.CheckToken, orderController.List)
+	app.Get("/orders/:orderNumber", middleware.CheckToken, orderController.Show)
 }

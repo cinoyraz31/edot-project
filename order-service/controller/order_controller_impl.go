@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"fmt"
 	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/fiber/v2"
 	"github.com/google/uuid"
@@ -13,6 +14,9 @@ import (
 	"order-service/model"
 	"order-service/repository"
 	"order-service/web/request"
+	"order-service/web/response"
+	"strconv"
+	"sync"
 	"time"
 )
 
@@ -145,13 +149,67 @@ func OrderCancelled(authorization string, o OrderControllerImpl, order model.Ord
 }
 
 func (o OrderControllerImpl) Show(ctx *fiber.Ctx) error {
-	//TODO implement me
-	panic("implement me")
+	claims := ctx.Locals("claims").(middleware.CheckTokenResponse)
+	orderNumber := ctx.Params("orderNumber")
+
+	order, err := o.OrderRepository.FindBy(o.DB, map[string]interface{}{
+		"order_number": orderNumber,
+		"user_id":      claims.Data.Id,
+	})
+	if err != nil {
+		return exceptions.ErrorHandlerBadRequest(ctx, "order not found")
+	}
+	return ctx.Status(fiber.StatusOK).JSON(order)
+
 }
 
 func (o OrderControllerImpl) List(ctx *fiber.Ctx) error {
-	//TODO implement me
-	panic("implement me")
+	claims := ctx.Locals("claims").(middleware.CheckTokenResponse)
+
+	filter := request.Filter{
+		Page: ctx.Query("page", "1"),
+		Size: ctx.Query("size", "10"),
+	}
+
+	var wg sync.WaitGroup
+	chanCount := make(chan int64, 1)
+	chanOrders := make(chan []model.Order, 1)
+
+	wg.Add(2)
+
+	go func() {
+		defer wg.Done()
+		intPage, _ := strconv.Atoi(fmt.Sprintf("%v", filter.Page))
+		intPerPage, _ := strconv.Atoi(fmt.Sprintf("%v", filter.Size))
+
+		orders, _ := o.OrderRepository.FindAll(o.DB, map[string]interface{}{
+			"user_id": claims.Data.Id,
+		}, map[string]interface{}{
+			"offset": (intPage - 1) * intPerPage,
+			"limit":  intPerPage,
+		})
+		chanOrders <- orders
+	}()
+
+	go func() {
+		defer wg.Done()
+		count, _ := o.OrderRepository.Count(o.DB, map[string]interface{}{
+			"user_id": claims.Data.Id,
+		})
+		chanCount <- count
+	}()
+
+	wg.Wait()
+	close(chanCount)
+	close(chanOrders)
+
+	orders := <-chanOrders
+	count := <-chanCount
+	pagination := helper.MakePagination(count, filter.Page, filter.Size)
+
+	return ctx.Status(fiber.StatusOK).JSON(response.DataResponse("Get products", orders, map[string]interface{}{
+		"pagination": pagination,
+	}))
 }
 
 func (o OrderControllerImpl) Pay(ctx *fiber.Ctx) error {

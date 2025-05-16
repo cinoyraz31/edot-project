@@ -39,7 +39,7 @@ func (o OrderRepositoryImpl) Update(db *gorm.DB, order model.Order) error {
 func (o OrderRepositoryImpl) FindBy(db *gorm.DB, params map[string]interface{}) (model.Order, error) {
 	var order model.Order
 
-	query := db.Model(&model.Order{})
+	query := db.Model(&model.Order{}).Preload("ShopOrders.OrderItems")
 
 	for key, value := range params {
 		query = query.Where(key+" = ?", value)
@@ -51,7 +51,7 @@ func (o OrderRepositoryImpl) FindBy(db *gorm.DB, params map[string]interface{}) 
 
 func (o OrderRepositoryImpl) FindAll(db *gorm.DB, params map[string]interface{}, options map[string]interface{}) ([]model.Order, error) {
 	var orders []model.Order
-	query := db
+	query := db.Preload("ShopOrders.OrderItems")
 
 	for key, value := range params {
 		switch reflect.TypeOf(value).Kind() {
@@ -67,16 +67,9 @@ func (o OrderRepositoryImpl) FindAll(db *gorm.DB, params map[string]interface{},
 	for key, value := range options {
 		switch key {
 		case "limit":
-			intValue, ok := value.(int)
-
-			if ok {
-				query.Limit(intValue)
-			}
+			query.Limit(value.(int))
 		case "offset":
-			intValue, ok := value.(int)
-			if ok {
-				query.Offset(intValue)
-			}
+			query.Offset(value.(int))
 		}
 	}
 
