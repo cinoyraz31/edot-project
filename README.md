@@ -9,7 +9,7 @@ Proyek ini adalah sistem e-commerce berbasis **microservices** yang terdiri dari
 ### 1. 👤 User Service
 Manajemen pengguna sistem:
 
-- Registrasi dan login menggunakan email atau nomor telepon
+- Registrasi dan login menggunakan nomor telepon dengan verifikasi OTP
 - Mendukung dua tipe pengguna:
     - **Client**: Pengguna akhir (customer)
     - **Shop User**: Pengelola toko
