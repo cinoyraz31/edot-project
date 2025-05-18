@@ -17,7 +17,7 @@ type ExternalCheckProductResponse struct {
 
 func CheckExistProduct(productCode string) (ExternalCheckProductResponse, error) {
 	var response ExternalCheckProductResponse
-	req, err := http.NewRequest("GET", fmt.Sprintf("%s/static/products/%s", os.Getenv("PRODUCT_URL"), productCode), nil)
+	req, err := http.NewRequest("GET", fmt.Sprintf("%s/api/products/static/products/%s", os.Getenv("API_GETAWAY_URL"), productCode), nil)
 	if err != nil {
 		return response, err
 	}

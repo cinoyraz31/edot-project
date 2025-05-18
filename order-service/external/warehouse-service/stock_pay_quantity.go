@@ -29,7 +29,7 @@ func StockPayQuantity(authorization string, warehouseId uuid.UUID, productId uui
 	if err != nil {
 		log.Fatal(err)
 	}
-	req, err := http.NewRequest("POST", fmt.Sprintf("%s/user/warehouse-stock/pay", os.Getenv("WAREHOUSE_URL")), bytes.NewBuffer(requestBodyBytes))
+	req, err := http.NewRequest("POST", fmt.Sprintf("%s/api/warehouses/user/warehouse-stock/pay", os.Getenv("API_GETAWAY_URL")), bytes.NewBuffer(requestBodyBytes))
 	if err != nil {
 		log.Fatal(err)
 	}

@@ -26,7 +26,7 @@ func CheckToken(ctx *fiber.Ctx) error {
 		return exceptions.ErrorHandlerCustom(ctx, fiber.StatusUnauthorized, "Missing Authorization header")
 	}
 
-	req, err := http.NewRequest("GET", fmt.Sprintf("%s/check-token", os.Getenv("USER_URL")), nil)
+	req, err := http.NewRequest("GET", fmt.Sprintf("%s/api/users/check-token", os.Getenv("API_GETAWAY_URL")), nil)
 	if err != nil {
 		return err
 	}

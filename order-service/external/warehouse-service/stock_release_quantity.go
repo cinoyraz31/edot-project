@@ -29,7 +29,7 @@ func StockReleaseQuantity(authorization string, warehouseId uuid.UUID, productId
 	if err != nil {
 		log.Fatal(err)
 	}
-	req, err := http.NewRequest("POST", fmt.Sprintf("%s/user/warehouse-stock/release", os.Getenv("WAREHOUSE_URL")), bytes.NewBuffer(requestBodyBytes))
+	req, err := http.NewRequest("POST", fmt.Sprintf("%s/api/warehouses/user/warehouse-stock/release", os.Getenv("API_GETAWAY_URL")), bytes.NewBuffer(requestBodyBytes))
 	if err != nil {
 		log.Fatal(err)
 	}

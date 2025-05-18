@@ -19,7 +19,7 @@ type ExternalProductResponse struct {
 
 func ExternalProductDetail(productId uuid.UUID) (ExternalProductResponse, error) {
 	var response ExternalProductResponse
-	req, err := http.NewRequest("GET", fmt.Sprintf("%s/static/products/%s", os.Getenv("PRODUCT_URL"), productId), nil)
+	req, err := http.NewRequest("GET", fmt.Sprintf("%s/api/products/static/products/%s", os.Getenv("API_GETAWAY_URL"), productId), nil)
 	if err != nil {
 		return response, err
 	}

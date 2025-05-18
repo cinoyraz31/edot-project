@@ -13,7 +13,7 @@ import (
 
 func ExternalProductShopList(ctx *fiber.Ctx, productId uuid.UUID) ([]interface{}, error) {
 	var response []interface{}
-	req, err := http.NewRequest("GET", fmt.Sprintf("%s/user/product/%s/shops", os.Getenv("SHOP_URL"), productId), nil)
+	req, err := http.NewRequest("GET", fmt.Sprintf("%s/api/shops/user/product/%s/shops", os.Getenv("API_GETAWAY_URL"), productId), nil)
 	if err != nil {
 		return response, err
 	}

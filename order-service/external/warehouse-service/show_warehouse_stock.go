@@ -27,7 +27,7 @@ type ExternalWarehouseDetail struct {
 
 func ShowWarehouseStock(ctx *fiber.Ctx, shopId uuid.UUID, productId uuid.UUID) (ExternalWarehouseDetail, error) {
 	var response ExternalWarehouseDetail
-	req, err := http.NewRequest("GET", fmt.Sprintf("%s/user/shop/%s/product/%s/warehouse", os.Getenv("WAREHOUSE_URL"), shopId, productId), nil)
+	req, err := http.NewRequest("GET", fmt.Sprintf("%s/api/warehouses/user/shop/%s/product/%s/warehouse", os.Getenv("API_GETAWAY_URL"), shopId, productId), nil)
 	if err != nil {
 		return response, err
 	}

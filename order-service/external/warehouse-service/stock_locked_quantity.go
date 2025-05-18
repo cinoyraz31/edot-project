@@ -29,7 +29,7 @@ func StockLockedQuantity(ctx *fiber.Ctx, warehouseId uuid.UUID, productId uuid.U
 	if err != nil {
 		return err
 	}
-	req, err := http.NewRequest("POST", fmt.Sprintf("%s/user/warehouse-stock/order", os.Getenv("WAREHOUSE_URL")), bytes.NewBuffer(requestBodyBytes))
+	req, err := http.NewRequest("POST", fmt.Sprintf("%s/api/warehouses/user/warehouse-stock/order", os.Getenv("API_GETAWAY_URL")), bytes.NewBuffer(requestBodyBytes))
 	if err != nil {
 		return err
 	}

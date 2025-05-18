@@ -19,7 +19,7 @@ type ExternalShopResponse struct {
 
 func ExternalShopDetail(ctx *fiber.Ctx, shopId uuid.UUID) (ExternalShopResponse, error) {
 	var response ExternalShopResponse
-	req, err := http.NewRequest("GET", fmt.Sprintf("%s/internal/shops/%s", os.Getenv("SHOP_URL"), shopId), nil)
+	req, err := http.NewRequest("GET", fmt.Sprintf("%s/api/shops/internal/shops/%s", os.Getenv("API_GETAWAY_URL"), shopId), nil)
 	if err != nil {
 		return response, err
 	}
