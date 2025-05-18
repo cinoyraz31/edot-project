@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/joho/godotenv"
@@ -14,6 +15,10 @@ import (
 func Init() {
 	if err := godotenv.Load(); err != nil {
 		panic("Error loading .env file")
+	}
+	
+	if err := config.Sentry(); err != nil {
+		panic(fmt.Sprintf("sentry.Init: %s", err))
 	}
 }
 

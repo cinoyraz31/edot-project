@@ -1,9 +1,13 @@
 package exceptions
 
 import (
+	"errors"
 	"fmt"
+	"github.com/getsentry/sentry-go"
 	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/fiber/v2"
+	"os"
+	"strconv"
 )
 
 type ErrorHandlerResp struct {
@@ -18,7 +22,14 @@ type ErrorField struct {
 
 func ErrorHandlerInternalServerError(ctx *fiber.Ctx) error {
 	defer func() {
+		sentryIsActive, _ := strconv.ParseBool(os.Getenv("SENTRY_ENABLED"))
+
 		if r := recover(); r != nil {
+			// capture sentry
+			if sentryIsActive {
+				sentry.CaptureException(errors.New(fmt.Sprintf("%v", r)))
+			}
+
 			ErrorHandlerCustom(ctx, fiber.StatusInternalServerError, fmt.Sprintf("%v", r))
 		}
 	}()
