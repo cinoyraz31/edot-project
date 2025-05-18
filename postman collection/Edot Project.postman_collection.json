@@ -19,7 +19,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"phoneNumber\": \"089653060497\",\n    \"otpId\": \"9e25ee73-ff81-42db-b08e-7644f5ab558e\"\n}",
+									"raw": "{\n    \"phoneNumber\": \"089653060497\",\n    \"otpId\": \"6f686646-5377-4d1d-995a-752d047d232e\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -27,13 +27,15 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:9090/shop/login-or-signup",
+									"raw": "http://localhost:8080/api/users/shop/login-or-signup",
 									"protocol": "http",
 									"host": [
 										"localhost"
 									],
-									"port": "9090",
+									"port": "8080",
 									"path": [
+										"api",
+										"users",
 										"shop",
 										"login-or-signup"
 									]
@@ -44,16 +46,28 @@
 						{
 							"name": "Check Token User Shop",
 							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjBlZGE4ZmMwLWY0OWQtNDU3Yi05NTY3LTE2MzYzMDcyNGFiZCIsInBob25lTnVtYmVyIjoiNjI4OTY1MzA2MDQ5NyIsImV4cCI6MTc0NzI4ODI3MX0.c6MW-RNoV1o1KIS0FYjhT7-bm12B848TcEqVtCjtF4M",
+											"type": "string"
+										}
+									]
+								},
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:9090/shop/check-token",
+									"raw": "http://localhost:8080/api/users/shop/check-token",
 									"protocol": "http",
 									"host": [
 										"localhost"
 									],
-									"port": "9090",
+									"port": "8080",
 									"path": [
+										"api",
+										"users",
 										"shop",
 										"check-token"
 									]
@@ -73,7 +87,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"phoneNumber\": \"089653060497\",\n    \"otpId\": \"100e6d8a-1b27-4369-9fa3-23041c0a3c10\"\n}",
+									"raw": "{\n    \"phoneNumber\": \"089653060497\",\n    \"otpId\": \"98282a65-c603-495a-bc1b-6a6ccdf03f7f\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -81,13 +95,15 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:9090/login-or-signup",
+									"raw": "http://localhost:8080/api/users/login-or-signup",
 									"protocol": "http",
 									"host": [
 										"localhost"
 									],
-									"port": "9090",
+									"port": "8080",
 									"path": [
+										"api",
+										"users",
 										"login-or-signup"
 									]
 								}
@@ -98,18 +114,27 @@
 							"name": "Check Token",
 							"request": {
 								"auth": {
-									"type": "bearer"
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImFlMjZlNDM2LWQ5YjUtNGM5OS04ZmNjLTMzMGY3NWRlZTNjZSIsInBob25lX251bWJlciI6IjYyODk2NTMwNjA0OTciLCJuYW1lIjoiIiwiZXhwIjoxNzQ3MjM3ODM2fQ.Vg3Bvz_KR8iJehNKSPj62sLHfDchvULxMRix6vYU2_I",
+											"type": "string"
+										}
+									]
 								},
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:9090/check-token",
+									"raw": "http://localhost:8080/api/users/check-token",
 									"protocol": "http",
 									"host": [
 										"localhost"
 									],
-									"port": "9090",
+									"port": "8080",
 									"path": [
+										"api",
+										"users",
 										"check-token"
 									]
 								}
@@ -119,16 +144,28 @@
 						{
 							"name": "Profile",
 							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImFlMjZlNDM2LWQ5YjUtNGM5OS04ZmNjLTMzMGY3NWRlZTNjZSIsInBob25lX251bWJlciI6IjYyODk2NTMwNjA0OTciLCJuYW1lIjoiIiwiZXhwIjoxNzQ3MjM3ODM2fQ.Vg3Bvz_KR8iJehNKSPj62sLHfDchvULxMRix6vYU2_I",
+											"type": "string"
+										}
+									]
+								},
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:9090/profile",
+									"raw": "http://localhost:8080/api/users/profile",
 									"protocol": "http",
 									"host": [
 										"localhost"
 									],
-									"port": "9090",
+									"port": "8080",
 									"path": [
+										"api",
+										"users",
 										"profile"
 									]
 								}
@@ -181,13 +218,15 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:9090/send-otp",
+							"raw": "http://localhost:8080/api/users/send-otp",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
-							"port": "9090",
+							"port": "8080",
 							"path": [
+								"api",
+								"users",
 								"send-otp"
 							]
 						}
@@ -237,13 +276,15 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:9090/time-count-otp",
+							"raw": "http://localhost:8080/api/users/time-count-otp",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
-							"port": "9090",
+							"port": "8080",
 							"path": [
+								"api",
+								"users",
 								"time-count-otp"
 							]
 						}
@@ -261,8 +302,33 @@
 						{
 							"name": "product show",
 							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "1234567890",
+											"type": "string"
+										}
+									]
+								},
 								"method": "GET",
-								"header": []
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/products/static/products/samsung-123",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"products",
+										"static",
+										"products",
+										"samsung-123"
+									]
+								}
 							},
 							"response": []
 						}
@@ -271,17 +337,41 @@
 				{
 					"name": "Product List",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImFlMjZlNDM2LWQ5YjUtNGM5OS04ZmNjLTMzMGY3NWRlZTNjZSIsInBob25lTnVtYmVyIjoiNjI4OTY1MzA2MDQ5NyIsIm5hbWUiOiJqb2huIGR1ZSIsImV4cCI6MTc0NzM4NDY1OX0.-NFbzJoYT3wLautpJd1oiw8ESGFqEWdcljYb_WCfreQ",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:9091/products",
+							"raw": "http://localhost:8080/api/products/products",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
-							"port": "9091",
+							"port": "8080",
 							"path": [
+								"api",
+								"products",
 								"products"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "2",
+									"disabled": true
+								},
+								{
+									"key": "size",
+									"value": "3",
+									"disabled": true
+								}
 							]
 						}
 					},
@@ -339,16 +429,37 @@
 				{
 					"name": "Add",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjBlZGE4ZmMwLWY0OWQtNDU3Yi05NTY3LTE2MzYzMDcyNGFiZCIsInBob25lTnVtYmVyIjoiNjI4OTY1MzA2MDQ5NyIsImV4cCI6MTc0NzI4ODI3MX0.c6MW-RNoV1o1KIS0FYjhT7-bm12B848TcEqVtCjtF4M",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"shopId\": \"19f886b3-3118-480e-bc79-0c4dc70e0ad7\",\n    \"name\": \"Gudangku\",\n    \"address\": \"ALamat aku jaga rahasia\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
-							"raw": "http://localhost:9093/warehouse",
+							"raw": "http://localhost:8080/api/warehouses/warehouse",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
-							"port": "9093",
+							"port": "8080",
 							"path": [
+								"api",
+								"warehouses",
 								"warehouse"
 							]
 						}
@@ -419,7 +530,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"orderNumber\": \"\"\n}",
+									"raw": "{\n    \"orderNumber\": \"ORD-20250516-890773\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -427,13 +538,15 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:9094/webhook/order-pay",
+									"raw": "http://localhost:8080/api/orders/webhook/order-pay",
 									"protocol": "http",
 									"host": [
 										"localhost"
 									],
-									"port": "9094",
+									"port": "8080",
 									"path": [
+										"api",
+										"orders",
 										"webhook",
 										"order-pay"
 									]
@@ -468,13 +581,15 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:9094/orders",
+							"raw": "http://localhost:8080/api/orders/orders",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
-							"port": "9094",
+							"port": "8080",
 							"path": [
+								"api",
+								"orders",
 								"orders"
 							]
 						}
@@ -484,24 +599,60 @@
 				{
 					"name": "show",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImFlMjZlNDM2LWQ5YjUtNGM5OS04ZmNjLTMzMGY3NWRlZTNjZSIsInBob25lTnVtYmVyIjoiNjI4OTY1MzA2MDQ5NyIsIm5hbWUiOiJqb2huIGR1ZSIsImV4cCI6MTc0NzM4NDY1OX0.-NFbzJoYT3wLautpJd1oiw8ESGFqEWdcljYb_WCfreQ",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
-						"header": []
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/orders/orders/ORD-20250516-282197",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"orders",
+								"orders",
+								"ORD-20250516-282197"
+							]
+						}
 					},
 					"response": []
 				},
 				{
 					"name": "list",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImFlMjZlNDM2LWQ5YjUtNGM5OS04ZmNjLTMzMGY3NWRlZTNjZSIsInBob25lTnVtYmVyIjoiNjI4OTY1MzA2MDQ5NyIsIm5hbWUiOiJqb2huIGR1ZSIsImV4cCI6MTc0NzM4NDY1OX0.-NFbzJoYT3wLautpJd1oiw8ESGFqEWdcljYb_WCfreQ",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:9094/orders",
+							"raw": "http://localhost:8080/api/orders/orders",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
-							"port": "9094",
+							"port": "8080",
 							"path": [
+								"api",
+								"orders",
 								"orders"
 							]
 						}
