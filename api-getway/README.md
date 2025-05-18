@@ -29,4 +29,15 @@ Ini mengurangi kebutuhan mengelola banyak environment URL dan membuat kode lebih
 Layanan internal tidak perlu diekspos ke luar. Hanya API Gateway yang terbuka untuk publik, sehingga permukaan serangan lebih kecil dan sistem lebih aman.
 
 ### 3. Efisiensi Komunikasi Internal
-Dengan API Gateway yang berjalan dalam satu cluster atau jaringan privat, komunikasi antarlayanan bisa dilakukan secara lokal (misalnya via `localhost`). Ke
+Dengan API Gateway yang berjalan dalam satu cluster atau jaringan privat, komunikasi antarlayanan bisa dilakukan secara lokal (misalnya via `localhost`). Keuntungannya:
+- Tidak perlu koneksi internet eksternal
+- Lebih cepat dan efisien
+- Biaya komunikasi lebih rendah
+
+### 4. JWT Authorization Langsung di Gateway
+API Gateway juga bisa menangani **validasi JWT token secara langsung**, sehingga:
+- Tidak perlu lagi request ke User Service hanya untuk validasi token.
+- Token diverifikasi sekali di gateway (misalnya dengan public key).
+- Payload token bisa diteruskan (forward) ke service di belakang sebagai bagian dari header atau context.
+
+Note: Tapi disini saya tidak melakukan pengecekan JWT di api getaway, karena ingin menjaga prinsip SOLID Principles "Single Responsibility", tp so jika terjadi penurunan performa maka itu bisa menjadi solusi.
